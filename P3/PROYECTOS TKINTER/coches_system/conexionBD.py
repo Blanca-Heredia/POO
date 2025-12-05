@@ -7,7 +7,6 @@ try:
         password='',
         database='bd_coches'
     )
-    print("funciona")
     cursor=conexion.cursor(buffered=True)
 except:
-     print(f"...")    
+    print("Error en la conexión")

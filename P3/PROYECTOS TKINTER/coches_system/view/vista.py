@@ -1,425 +1,300 @@
 from tkinter import *
-from tkinter import ttk
-from tkinter import messagebox
-from controller import controlador
-import controller
-
-
+from controller.controlador import Controlador
 class Vistas:
-    def __init__(self,ventana):
-        ventana.title("Coches")
-        ventana.geometry("1000x1000")
-        self.interfaz(ventana)
-
-    def borrarPantalla(self,ventana):
-        for widget in ventana.winfo_children():
-            widget.destroy()
-
-    def interfaz(self,ventana):
-        self.borrarPantalla(ventana)
-        ventana.geometry("1000x1000")
-        txt_mp=Label(ventana,text="Menu Principal")
-        txt_mp.pack(pady=7)
-        btn1=Button(ventana,text="1.-Coches",command=lambda:self.menu_coches("Coches",ventana))
-        btn1.pack(pady=7)
-        btn2=Button(ventana,text="2.-Camiones", command=lambda:self.menu_camiones("Camiones",ventana))
-        btn2.pack(pady=7)
-        btn3=Button(ventana,text="3.-Camionetas",command=lambda:self.menu_camionetas("Camionetas",ventana))
-        btn3.pack(pady=7)
-        btn4=Button(ventana,text="4.-Salir",command=ventana.quit)
-        btn4.pack(pady=7)
-
-    def menu_coches(self,tipo,ventana):
-        self.borrarPantalla(ventana)
-        ventana.geometry("1000x1000")
-        txt_mp=Label(ventana,text=f"Menu de coches")
-        txt_mp.pack(pady=7)
-        btn_add=Button(ventana,text="1.Agregar",command=lambda:self.datos_coches(tipo,ventana))
-        btn_add.pack(pady=7)
-        btn_show=Button(ventana,text="2.Consultar", command=lambda: self.consultar_coches(ventana,tipo))
-        btn_show.pack(pady=7)
-        btn_update=Button(ventana,text="3.Modificar",command=lambda: self.actualizar_coches(tipo,ventana))
-        btn_update.pack(pady=7)
-        btn_delete=Button(ventana,text="4.Eliminar",command=lambda: self.borrar_coches(ventana,tipo))
-        btn_delete.pack(pady=7)
-        btn_back=Button(ventana,text="5.Volver",command=lambda: self.interfaz(ventana))
-        btn_back.pack(pady=7)
-
-    def menu_camiones(self,tipo,ventana):
-        self.borrarPantalla(ventana)
-        ventana.geometry("1000x1000")
-        txt_mp=Label(ventana,text=f"Menu de camiones")
-        txt_mp.pack(pady=7)
-        btn_add=Button(ventana,text="1.Agregar",command=lambda:self.datos_camiones(tipo,ventana))
-        btn_add.pack(pady=7)
-        btn_show=Button(ventana,text="2.Consultar", command=lambda: self.consultar_camiones(ventana,tipo))
-        btn_show.pack(pady=7)
-        btn_update=Button(ventana,text="3.Modificar",command=lambda: self.actualizar_camiones(tipo,ventana))
-        btn_update.pack(pady=7)
-        btn_delete=Button(ventana,text="4.Eliminar",command=lambda: self.borrar_camiones(ventana,tipo))
-        btn_delete.pack(pady=7)
-        btn_back=Button(ventana,text="5.Volver",command=lambda: self.interfaz(ventana))
-        btn_back.pack(pady=7)
-
-    def menu_camionetas(self,tipo,ventana):
-        self.borrarPantalla(ventana)
-        ventana.geometry("1000x1000")
-        txt_mp=Label(ventana,text=f"Menu de camionetas")
-        txt_mp.pack(pady=7)
-        btn_add=Button(ventana,text="1.Agregar",command=lambda:self.datos_camionetas(tipo,ventana))
-        btn_add.pack(pady=7)
-        btn_show=Button(ventana,text="2.Consultar", command=lambda: self.consultar_camionetas(ventana,tipo))
-        btn_show.pack(pady=7)
-        btn_update=Button(ventana,text="3.Modificar",command=lambda: self.actualizar_camionetas(tipo,ventana))
-        btn_update.pack(pady=7)
-        btn_delete=Button(ventana,text="4.Eliminar",command=lambda: self.borrar_camionetas(ventana,tipo))
-        btn_delete.pack(pady=7)
-        btn_back=Button(ventana,text="5.Volver",command=lambda: self.interfaz(ventana))
-        btn_back.pack(pady=7)
-
-    def datos_coches(self,tipo,ventana):
-        ventana.geometry("1000x1000")
-        self.borrarPantalla(ventana)
-        lbl_titulo=Label(ventana,text=f"Agregar coche")
-        lbl_titulo.pack(pady=7)
-        lbl_marca=Label(ventana,text="Marca: ")
-        lbl_marca.pack(pady=7)
-        txt_marca=Entry(ventana,width=25,justify="left")
-        txt_marca.pack(pady=7) 
-        lbl_color=Label(ventana,text="Color: ")
-        lbl_color.pack(pady=7)
-        txt_color=Entry(ventana,width=25,justify="left")
-        txt_color.pack(pady=7)
-        lbl_modelo=Label(ventana,text="Modelo: ")
-        lbl_modelo.pack(pady=7)
-        txt_modelo=Entry(ventana,width=25,justify="left")
-        txt_modelo.pack(pady=7)
-        lbl_velocidad=Label(ventana,text="Velocidad: ")
-        lbl_velocidad.pack(pady=7)
-        txt_velocidad=Entry(ventana,width=25,justify="left")
-        txt_velocidad.pack(pady=7)
-        lbl_caballaje=Label(ventana,text="Caballaje: ")
-        lbl_caballaje.pack(pady=7)
-        txt_caballaje=Entry(ventana,width=25,justify="left")
-        txt_caballaje.pack(pady=7)
-        lbl_plazas=Label(ventana,text="Plazas: ")
-        lbl_plazas.pack(pady=7)
-        txt_plazas=Entry(ventana,width=25,justify="left")
-        txt_plazas.pack(pady=7)
-        btnen=Button(ventana,text="Agregar",command=lambda: controller.controlador.Coches.crear(txt_marca.get(),txt_color.get(),txt_modelo.get(),txt_velocidad.get(),txt_caballaje.get(),txt_plazas.get()))
-        btnen.pack(pady=7)
-        btn_back=Button(ventana,text="Regresar",command=lambda: self.menu_coches(tipo,ventana))
-        btn_back.pack(pady=7)
-
-    def datos_camiones(self,tipo,ventana):
-        ventana.geometry("1000x1000")
-        self.borrarPantalla(ventana)
-        lbl_titulo=Label(ventana,text=f"Agregar camion")
-        lbl_titulo.pack(pady=7)
-        lbl_marca=Label(ventana,text="Marca: ")
-        lbl_marca.pack(pady=7)
-        txt_marca=Entry(ventana,width=25,justify="left")
-        txt_marca.pack(pady=7) 
-        lbl_color=Label(ventana,text="Color: ")
-        lbl_color.pack(pady=7)
-        txt_color=Entry(ventana,width=25,justify="left")
-        txt_color.pack(pady=7)
-        lbl_modelo=Label(ventana,text="Modelo: ")
-        lbl_modelo.pack(pady=7)
-        txt_modelo=Entry(ventana,width=25,justify="left")
-        txt_modelo.pack(pady=7)
-        lbl_velocidad=Label(ventana,text="Velocidad: ")
-        lbl_velocidad.pack(pady=7)
-        txt_velocidad=Entry(ventana,width=25,justify="left")
-        txt_velocidad.pack(pady=7)
-        lbl_caballaje=Label(ventana,text="Caballaje: ")
-        lbl_caballaje.pack(pady=7)
-        txt_caballaje=Entry(ventana,width=25,justify="left")
-        txt_caballaje.pack(pady=7)
-        lbl_plazas=Label(ventana,text="Plazas: ")
-        lbl_plazas.pack(pady=7)
-        txt_plazas=Entry(ventana,width=25,justify="left")
-        txt_plazas.pack(pady=7)
-        lbl_eje=Label(ventana,text="Eje: ")
-        lbl_eje.pack(pady=7)
-        txt_eje=Entry(ventana,width=25,justify="left")
-        txt_eje.pack(pady=7)
-        lbl_cc=Label(ventana,text="Capacidad de carga: ")
-        lbl_cc.pack(pady=7)
-        txt_cc=Entry(ventana,width=25,justify="left")
-        txt_cc.pack(pady=7)
-        btnen=Button(ventana,text="Agregar",command=lambda: controller.controlador.camiones.crear(txt_marca.get(),txt_color.get(),txt_modelo.get(),txt_velocidad.get(),txt_caballaje.get(),txt_plazas.get(),txt_eje.get(),txt_cc.get()))
-        btnen.pack(pady=7)
-        btn_back=Button(ventana,text="Regresar",command=lambda: self.menu_camiones(tipo,ventana))
-        btn_back.pack(pady=7)
-
-    def datos_camionetas(self,tipo,ventana):
-        ventana.geometry("1000x1000")
-        self.borrarPantalla(ventana)
-        lbl_titulo=Label(ventana,text=f"Agregar camioneta")
-        lbl_titulo.pack(pady=7)
-        lbl_marca=Label(ventana,text="Marca: ")
-        lbl_marca.pack(pady=7)
-        txt_marca=Entry(ventana,width=25,justify="left")
-        txt_marca.pack(pady=7) 
-        lbl_color=Label(ventana,text="Color: ")
-        lbl_color.pack(pady=7)
-        txt_color=Entry(ventana,width=25,justify="left")
-        txt_color.pack(pady=7)
-        lbl_modelo=Label(ventana,text="Modelo: ")
-        lbl_modelo.pack(pady=7)
-        txt_modelo=Entry(ventana,width=25,justify="left")
-        txt_modelo.pack(pady=7)
-        lbl_velocidad=Label(ventana,text="Velocidad: ")
-        lbl_velocidad.pack(pady=7)
-        txt_velocidad=Entry(ventana,width=25,justify="left")
-        txt_velocidad.pack(pady=7)
-        lbl_caballaje=Label(ventana,text="Caballaje: ")
-        lbl_caballaje.pack(pady=7)
-        txt_caballaje=Entry(ventana,width=25,justify="left")
-        txt_caballaje.pack(pady=7)
-        lbl_plazas=Label(ventana,text="Plazas: ")
-        lbl_plazas.pack(pady=7)
-        txt_plazas=Entry(ventana,width=25,justify="left")
-        txt_plazas.pack(pady=7)
-        lbl_tra=Label(ventana,text="Traccion: ")
-        lbl_tra.pack(pady=7)
-        txt_tra=Entry(ventana,width=25,justify="left")
-        txt_tra.pack(pady=7)
-        lbl_ce=Label(ventana,text="Cerrada: ")
-        lbl_ce.pack(pady=7)
-        txt_ce=Entry(ventana,width=25,justify="left")
-        txt_ce.pack(pady=7)
-        btnen=Button(ventana,text="Agregar",command=lambda: controller.controlador.camionetas.crear(txt_marca.get(),txt_color.get(),txt_modelo.get(),txt_velocidad.get(),txt_caballaje.get(),txt_plazas.get(),txt_tra.get(),txt_ce.get()))
-        btnen.pack(pady=7)
-        btn_back=Button(ventana,text="Regresar",command=lambda: self.menu_camiones(tipo,ventana))
-        btn_back.pack(pady=7)
-
-    def consultar_coches(self,ventana,tipo):
-        self.borrarPantalla(ventana)
-        lblTitulo=Label(ventana,text="Coches")
-        lblTitulo.pack(pady=5)
-        filas=""
-        registros=[("1","TOYOTA","ROJO","2019","130","200","4")]
-        if len(registros)>0:
-          num_autos=1
-          for fila in registros:
-            filas=filas+f"\nCOCHE #{num_autos} ID: {fila[0]} \nMarca: {fila[1]} Color: {fila[2]} Modelo: {fila[3]} Velocidad: {fila[4]} Potencia: {fila[5]} Plazas: {fila[6]}"
-            num_autos+=1
-        else:
-            messagebox.showinfo(message="No hay coches en el sistema")
-        lblNote=Label(ventana,text=filas)
-        lblNote.pack(pady=5)
-        btn_back=Button(ventana,text="Regresar",command=lambda: self.menu_coches(tipo,ventana))
-        btn_back.pack(pady=7)
+    @staticmethod
+    def borrarPantalla(ventana):
+        for w in ventana.winfo_children(): w.destroy()
     
-    def consultar_camiones(self,ventana,tipo):
-        self.borrarPantalla(ventana)
-        lblTitulo=Label(ventana,text="Camiones")
-        lblTitulo.pack(pady=5)
-        filas=""
-        registros=[("1","CAMION","ROJO","2019","130","200","4","666","432")]
-        if len(registros)>0:
-          num_autos=1
-          for fila in registros:
-            filas=filas+f"\nCAMION #{num_autos} ID: {fila[0]} \nMarca: {fila[1]} Color: {fila[2]} Modelo: {fila[3]} Velocidad: {fila[4]} Potencia: {fila[5]} Plazas: {fila[6]} Eje: {fila[7]} Capacidad de carga: {fila[8]}"
-            num_autos+=1
-        else:
-            messagebox.showinfo(message="No hay coches en el sistema")
-        lblNote=Label(ventana,text=filas)
-        lblNote.pack(pady=5)
-        btn_back=Button(ventana,text="Regresar",command=lambda: self.menu_camiones(tipo,ventana))
-        btn_back.pack(pady=7)
+    @staticmethod
+    def interfaz(ventana):
+        Vistas.borrarPantalla(ventana)
+        Label(ventana ,text="Menu").pack(pady=7)
+        Button(ventana,text="Coches",width=10,command=lambda:Vistas.menu_autos(ventana)).pack(pady=7)
+        Button(ventana,text="Camionetas",width=10,command=lambda:Vistas.menu_camionetas(ventana)).pack(pady=7)
+        Button(ventana,text="Camiones",width=10,command=lambda:Vistas.menu_camiones(ventana)).pack(pady=7)
+        Button(ventana,text="Salir",width=10,command=ventana.quit).pack(pady=7)
     
-    def consultar_camionetas(self,ventana,tipo):
-        self.borrarPantalla(ventana)
-        lblTitulo=Label(ventana,text="Camionetas")
-        lblTitulo.pack(pady=5)
-        filas=""
-        registros=[("1","CAMIONETA","ROJO","2019","130","200","4","666","432")]
-        if len(registros)>0:
-          num_autos=1
-          for fila in registros:
-            filas=filas+f"\nCAMIONETA #{num_autos} ID: {fila[0]} \nMarca: {fila[1]} Color: {fila[2]} Modelo: {fila[3]} Velocidad: {fila[4]} Potencia: {fila[5]} Plazas: {fila[6]} Traccion: {fila[7]} Cerrada: {fila[8]}"
-            num_autos+=1
+    @staticmethod
+    def menu_autos(ventana):
+        Vistas.borrarPantalla(ventana)
+        Label(ventana,text="Menu Coches").pack(pady=7)
+        Button(ventana,text="Agregar",width=10,command=lambda:Vistas.insertar_autos(ventana)).pack(pady=7)
+        Button(ventana,text="Consultar",width=10,command=lambda:Vistas.consultar_autos(ventana)).pack(pady=7)
+        Button(ventana,text="Actualizar",width=10,command=lambda:Vistas.modificar_autos(ventana)).pack(pady=7)
+        Button(ventana,text="Eliminar",width=10,command=lambda:Vistas.eliminar_autos(ventana)).pack(pady=7)
+        Button(ventana,text="Volver",width=10,command=lambda:Vistas.interfaz(ventana)).pack(pady=7)
+   
+    @staticmethod
+    def insertar_autos(ventana):
+        Vistas.borrarPantalla(ventana)
+        Label(ventana,text="Agregar coche").pack(pady=7)
+        lbl=["Marca","Color","Modelo","Velocidad","Caballaje","Plazas"]; ents=[]
+        for t in lbl:
+            Label(ventana,text=t).pack(); e=Entry(ventana); e.pack(); ents.append(e)
+        Button(ventana,text="Guardar",width=10,command=lambda:Controlador.insertar_auto(*[e.get() for e in ents])).pack(pady=7)
+        Button(ventana,text="Volver",width=10,command=lambda:Vistas.menu_autos(ventana)).pack(pady=7)
+    
+    @staticmethod
+    def consultar_autos(ventana):
+        Vistas.borrarPantalla(ventana)
+        Label(ventana,text="Coches ").pack(pady=7)
+        datos=Controlador.consultar_auto("all")
+        if not datos:
+            Label(ventana,text="No hay coches ").pack(pady=7)
         else:
-            messagebox.showinfo(message="No hay coches en el sistema")
-        lblNote=Label(ventana,text=filas)
-        lblNote.pack(pady=5)
-        btn_back=Button(ventana,text="Regresar",command=lambda: self.menu_camionetas(tipo,ventana))
-        btn_back.pack(pady=7)
+            for a in datos:
+                Label(ventana,text=f"id {a[0]} {a[1]}  {a[2]} {a[3]} {a[4]} {a[5]} {a[6]}").pack()
+        Button(ventana,text="Volver",width=10,command=lambda:Vistas.menu_autos(ventana)).pack(pady=7)
+    
+    @staticmethod
+    def modificar_autos(ventana):
+        Vistas.borrarPantalla(ventana)
+        Label(ventana,text="Actualizar coche").pack(pady=7)
+        Label(ventana,text="Id").pack(); e=Entry(ventana); e.pack()
+        Button(ventana,text="Buscar",width=10,command=lambda:Vistas.modificar_form(ventana,e.get())).pack(pady=7)
+        Button(ventana,text="Volver",width=10,command=lambda:Vistas.menu_autos(ventana)).pack(pady=7)
+    
+    @staticmethod
+    def modificar_form(ventana,id):
+        auto=Controlador.consultar_auto(id)
+        if not auto:
+            Vistas.borrarPantalla(ventana)
+            Label(ventana,text="No existe el id").pack(pady=7)
+            Button(ventana,text="Volver",width=10,command=lambda: Vistas.modificar_autos(ventana)).pack(pady=7)
+            return
+        if isinstance(auto,list) and len(auto)>0: auto=auto[0]
+        Vistas.borrarPantalla(ventana)
+        Label(ventana,text=f"Actualizar coche id {id}").pack(pady=5)
+        lbl=["Marca","Color","Modelo","Velocidad","Caballaje","Plazas"]; ents=[]
+        for i,t in enumerate(lbl):
+            Label(ventana,text=t).pack(); e=Entry(ventana); e.insert(0,str(auto[i+1])); e.pack(); ents.append(e)
+        Button(ventana,text="Guardar",width=10,command=lambda: Controlador.modificar_auto(*[e.get() for e in ents],id)).pack(pady=7)
+        Button(ventana,text="Volver",width=10,command=lambda: Vistas.menu_autos(ventana)).pack(pady=7)
 
-    def actualizar_coches(self,tipo,ventana):
-        ventana.geometry("1000x1000")
-        self.borrarPantalla(ventana)
-        lbl_titulo=Label(ventana,text=f"Actualizar coche")
-        lbl_titulo.pack(pady=7)
-        lbl_id=Label(ventana,text=f"Id de {tipo}: ")
-        lbl_id.pack(pady=7)
-        txt_id=Entry(ventana,width=25,justify="left")
-        txt_id.pack(pady=7) 
-        lbl_marca=Label(ventana,text="Nueva marca: ")
-        lbl_marca.pack(pady=7)
-        txt_marca=Entry(ventana,width=25,justify="left")
-        txt_marca.pack(pady=7) 
-        lbl_color=Label(ventana,text="nuevo color: ")
-        lbl_color.pack(pady=7)
-        txt_color=Entry(ventana,width=25,justify="left")
-        txt_color.pack(pady=7)
-        lbl_modelo=Label(ventana,text="Nuevo modelo: ")
-        lbl_modelo.pack(pady=7)
-        txt_modelo=Entry(ventana,width=25,justify="left")
-        txt_modelo.pack(pady=7)
-        lbl_velocidad=Label(ventana,text="Nueva velocidad: ")
-        lbl_velocidad.pack(pady=7)
-        txt_velocidad=Entry(ventana,width=25,justify="left")
-        txt_velocidad.pack(pady=7)
-        lbl_caballaje=Label(ventana,text="Nuevo caballaje: ")
-        lbl_caballaje.pack(pady=7)
-        txt_caballaje=Entry(ventana,width=25,justify="left")
-        txt_caballaje.pack(pady=7)
-        lbl_plazas=Label(ventana,text="Nuevas plazas: ")
-        lbl_plazas.pack(pady=7)
-        txt_plazas=Entry(ventana,width=25,justify="left")
-        txt_plazas.pack(pady=7)
-        btnen=Button(ventana,text="Agregar",command=lambda: controller.controlador.Coches.actualizar(txt_marca.get(),txt_color.get(),txt_modelo.get(),txt_velocidad.get(),txt_caballaje.get(),txt_plazas.get(),txt_id.get()))
-        btnen.pack(pady=7)
-        btn_back=Button(ventana,text="Regresar",command=lambda: self.menu_coches(tipo,ventana))
-        btn_back.pack(pady=7)
-        
-    def actualizar_camiones(self,tipo,ventana):
-        ventana.geometry("1000x1000")
-        self.borrarPantalla(ventana)
-        lbl_titulo=Label(ventana,text=f"Actualizar camion")
-        lbl_titulo.pack(pady=7)
-        lbl_id=Label(ventana,text=f"Id de {tipo}: ")
-        lbl_id.pack(pady=7)
-        txt_id=Entry(ventana,width=25,justify="left")
-        txt_id.pack(pady=7) 
-        lbl_marca=Label(ventana,text="Nueva marca: ")
-        lbl_marca.pack(pady=7)
-        txt_marca=Entry(ventana,width=25,justify="left")
-        txt_marca.pack(pady=7) 
-        lbl_color=Label(ventana,text="nuevo color: ")
-        lbl_color.pack(pady=7)
-        txt_color=Entry(ventana,width=25,justify="left")
-        txt_color.pack(pady=7)
-        lbl_modelo=Label(ventana,text="Nuevo modelo: ")
-        lbl_modelo.pack(pady=7)
-        txt_modelo=Entry(ventana,width=25,justify="left")
-        txt_modelo.pack(pady=7)
-        lbl_velocidad=Label(ventana,text="Nueva velocidad: ")
-        lbl_velocidad.pack(pady=7)
-        txt_velocidad=Entry(ventana,width=25,justify="left")
-        txt_velocidad.pack(pady=7)
-        lbl_caballaje=Label(ventana,text="Nuevo caballaje: ")
-        lbl_caballaje.pack(pady=7)
-        txt_caballaje=Entry(ventana,width=25,justify="left")
-        txt_caballaje.pack(pady=7)
-        lbl_plazas=Label(ventana,text="Nuevas plazas: ")
-        lbl_plazas.pack(pady=7)
-        txt_plazas=Entry(ventana,width=25,justify="left")
-        txt_plazas.pack(pady=7)
-        lbl_eje=Label(ventana,text="Eje: ")
-        lbl_eje.pack(pady=7)
-        txt_eje=Entry(ventana,width=25,justify="left")
-        txt_eje.pack(pady=7)
-        lbl_cc=Label(ventana,text="Capacidad de carga: ")
-        lbl_cc.pack(pady=7)
-        txt_cc=Entry(ventana,width=25,justify="left")
-        txt_cc.pack(pady=7)
-        btnen=Button(ventana,text="Agregar",command=lambda: controller.controlador.camiones.actualizar(txt_marca.get(),txt_color.get(),txt_modelo.get(),txt_velocidad.get(),txt_caballaje.get(),txt_plazas.get(),txt_eje.get(),txt_cc.get(),txt_id.get()))
-        btnen.pack(pady=7)
-        btn_back=Button(ventana,text="Regresar",command=lambda: self.menu_camiones(tipo,ventana))
-        btn_back.pack(pady=7)
+    @staticmethod
+    def eliminar_autos(ventana):
+        Vistas.borrarPantalla(ventana)
+        Label(ventana,text="Eliminar coche").pack(pady=7)
+        Label(ventana,text="Id").pack(); e=Entry(ventana); e.pack()
+        Button(ventana,text="Buscar",width=10,command=lambda:Vistas.eliminar_confirmar(ventana,e.get())).pack(pady=7)
+        Button(ventana,text="Volver",width=10,command=lambda:Vistas.menu_autos(ventana)).pack(pady=7)
 
-    def actualizar_camionetas(self,tipo,ventana):
-        ventana.geometry("1000x1000")
-        self.borrarPantalla(ventana)
-        lbl_titulo=Label(ventana,text=f"Actualizar camioneta")
-        lbl_titulo.pack(pady=7)
-        lbl_id=Label(ventana,text=f"Id de {tipo}: ")
-        lbl_id.pack(pady=7)
-        txt_id=Entry(ventana,width=25,justify="left")
-        txt_id.pack(pady=7) 
-        lbl_marca=Label(ventana,text="Nueva marca: ")
-        lbl_marca.pack(pady=7)
-        txt_marca=Entry(ventana,width=25,justify="left")
-        txt_marca.pack(pady=7) 
-        lbl_color=Label(ventana,text="Nuevo color: ")
-        lbl_color.pack(pady=7)
-        txt_color=Entry(ventana,width=25,justify="left")
-        txt_color.pack(pady=7)
-        lbl_modelo=Label(ventana,text="Nuevo modelo: ")
-        lbl_modelo.pack(pady=7)
-        txt_modelo=Entry(ventana,width=25,justify="left")
-        txt_modelo.pack(pady=7)
-        lbl_velocidad=Label(ventana,text="Nueva velocidad: ")
-        lbl_velocidad.pack(pady=7)
-        txt_velocidad=Entry(ventana,width=25,justify="left")
-        txt_velocidad.pack(pady=7)
-        lbl_caballaje=Label(ventana,text="Nuevo caballaje: ")
-        lbl_caballaje.pack(pady=7)
-        txt_caballaje=Entry(ventana,width=25,justify="left")
-        txt_caballaje.pack(pady=7)
-        lbl_plazas=Label(ventana,text="Nuevas plazas: ")
-        lbl_plazas.pack(pady=7)
-        txt_plazas=Entry(ventana,width=25,justify="left")
-        txt_plazas.pack(pady=7)
-        lbl_t=Label(ventana,text="Traccion: ")
-        lbl_t.pack(pady=7)
-        txt_t=Entry(ventana,width=25,justify="left")
-        txt_t.pack(pady=7)
-        lbl_c=Label(ventana,text="Cerrada: ")
-        lbl_c.pack(pady=7)
-        txt_c=Entry(ventana,width=25,justify="left")
-        txt_c.pack(pady=7)
-        btnen=Button(ventana,text="Agregar",command=lambda: controller.controlador.camionetas.actualizar(txt_marca.get(),txt_color.get(),txt_modelo.get(),txt_velocidad.get(),txt_caballaje.get(),txt_plazas.get(),txt_t.get(),txt_c.get(),txt_id.get()))
-        btnen.pack(pady=7)
-        btn_back=Button(ventana,text="Regresar",command=lambda: self.menu_camionetas(tipo,ventana))
-        btn_back.pack(pady=7)      
+    @staticmethod
+    def eliminar_confirmar(ventana,id):
+        auto=Controlador.consultar_auto(id)
+        if not auto:
+            Vistas.borrarPantalla(ventana); Label(ventana,text="No existe el id").pack(pady=7)
+            Button(ventana,text="Volver",width=10,command=lambda:Vistas.eliminar_autos(ventana)).pack(pady=7); return
+        auto=auto[0]
+        Vistas.borrarPantalla(ventana)
+        Label(ventana,text=f"¿quieres borrar el coche, id {auto[0]} {auto[1]} {auto[2]} {auto[3]}").pack(pady=10)
+        Button(ventana,text="Sí",width=10,command=lambda:Controlador.eliminar_auto(id)).pack(pady=7)
+        Button(ventana,text="Volver",width=10,command=lambda:Vistas.menu_autos(ventana)).pack(pady=7)
 
-    def borrar_coches(self,ventana,tipo):
-        self.borrarPantalla(ventana)
-        lblTitulo=Label(ventana,text="Eliminar auto")
-        lblTitulo.pack(pady=5)
-        lblId=Label(ventana,text="Ingresar ID:")
-        lblId.pack(pady=5)
-        txtId=Entry(ventana)
-        txtId.pack()
-        btnbus=Button(ventana,text="Buscar",command= lambda: controller.controlador.Coches.buscar(txtId.get()))
-        btnbus.pack(pady=5)     
-        btnEliminar=Button(ventana,text="Eliminar",command= lambda: controller.controlador.Coches.eliminar(txtId.get()))
-        btnEliminar.pack(pady=5)
-        btn_back=Button(ventana,text="Regresar",command=lambda: self.menu_coches(tipo,ventana))
-        btn_back.pack(pady=7)
 
-    def borrar_camiones(self,ventana,tipo):
-        self.borrarPantalla(ventana)
-        lblTitulo=Label(ventana,text="Eliminar camion")
-        lblTitulo.pack(pady=5)
-        lblId=Label(ventana,text="Ingresar ID:")
-        lblId.pack(pady=5)
-        txtId=Entry(ventana)
-        txtId.pack()
-        btnbus=Button(ventana,text="Buscar",command= lambda: controller.controlador.camiones.buscar(txtId.get()))
-        btnbus.pack(pady=5) 
-        btnEliminar=Button(ventana,text="Eliminar",command= lambda: controller.controlador.camiones.eliminar(txtId.get()))
-        btnEliminar.pack(pady=5)
-        btn_back=Button(ventana,text="Regresar",command=lambda: self.menu_camiones(tipo,ventana))
-        btn_back.pack(pady=7)
 
-    def borrar_camionetas(self,ventana,tipo):
-        self.borrarPantalla(ventana)
-        lblTitulo=Label(ventana,text="Eliminar camioneta")
-        lblTitulo.pack(pady=5)
-        lblId=Label(ventana,text="Ingresar ID:")
-        lblId.pack(pady=5)
-        txtId=Entry(ventana)
-        txtId.pack()
-        btnbus=Button(ventana,text="Buscar",command= lambda: controller.controlador.camionetas.buscar(txtId.get()))
-        btnbus.pack(pady=5)
-        btnEliminar=Button(ventana,text="Eliminar",command= lambda: controller.controlador.camionetas.eliminar(txtId.get()))
-        btnEliminar.pack(pady=5)
-        btn_back=Button(ventana,text="Regresar",command=lambda: self.menu_camionetas(tipo,ventana))
-        btn_back.pack(pady=7)
+
+    @staticmethod
+    def menu_camionetas(ventana):
+        Vistas.borrarPantalla(ventana)
+        Label(ventana,text="Menu Camionetas").pack(pady=7)
+        Button(ventana,text="Agregar",width=10,command=lambda:Vistas.insertar_camionetas(ventana)).pack(pady=7)
+        Button(ventana,text="Consultar",width=10,command=lambda:Vistas.consultar_camionetas(ventana)).pack(pady=7)
+        Button(ventana,text="Actualizar",width=10,command=lambda:Vistas.modificar_camionetas(ventana)).pack(pady=7)
+        Button(ventana,text="Eliminar",width=10,command=lambda:Vistas.eliminar_camionetas(ventana)).pack(pady=7)
+        Button(ventana,text="Volver",width=10,command=lambda:Vistas.interfaz(ventana)).pack(pady=7)
+
+
+    @staticmethod
+    def insertar_camionetas(ventana):
+        Vistas.borrarPantalla(ventana)
+        Label(ventana,text="Agregar Camioneta").pack(pady=5)
+        lbls=["Marca","Color","Modelo","Velocidad","Caballaje","Plazas","Tracción"]
+        ents=[]
+        for t in lbls:
+            Label(ventana,text=t).pack()
+            e=Entry(ventana)
+            e.pack()
+            ents.append(e)
+
+        Button(ventana,text="Guardar",width=10,command=lambda:
+               Controlador.insertar_camioneta(*[e.get() for e in ents])).pack(pady=7)
+
+        Button(ventana,text="Volver",width=10,command=lambda:Vistas.menu_camionetas(ventana)).pack(pady=7)
+
+
+    @staticmethod
+    def consultar_camionetas(ventana):
+        Vistas.borrarPantalla(ventana)
+        Label(ventana,text="Camionetas").pack(pady=7)
+
+        datos = Controlador.consultar_camioneta("all")
+
+        if not datos:
+            Label(ventana,text="No hay camionetas").pack(pady=7)
+        else:
+            for c in datos:
+                Label(
+                    ventana,
+                    text=f"id {c[0]}  {c[1]}  {c[2]}  {c[3]}  {c[4]}  {c[5]}  {c[6]}  {c[7]}"
+                ).pack()
+
+        Button(ventana,text="Volver",width=10,command=lambda:Vistas.menu_camionetas(ventana)).pack(pady=7)
+
+
+    @staticmethod
+    def modificar_camionetas(ventana):
+        Vistas.borrarPantalla(ventana)
+        Label(ventana,text="Actualizar Camioneta").pack(pady=7)
+        Label(ventana,text="Id").pack()
+
+        e = Entry(ventana)
+        e.pack()
+
+        Button(ventana,text="Buscar",width=10,command=lambda:
+               Vistas.modificar_form_camioneta(ventana, e.get())).pack(pady=7)
+
+        Button(ventana,text="Volver",width=10,command=lambda:Vistas.menu_camionetas(ventana)).pack(pady=7)
+
+
+    @staticmethod
+    def modificar_form_camioneta(ventana,id):
+        c = Controlador.consultar_camioneta(id)
+
+        if not c:
+            Vistas.borrarPantalla(ventana)
+            Label(ventana,text="No existe el id").pack(pady=7)
+            Button(ventana,text="Volver",width=10,command=lambda:
+                   Vistas.modificar_camionetas(ventana)).pack(pady=7)
+            return
+
+        if isinstance(c,list) and len(c)>0:
+            c = c[0]
+
+        Vistas.borrarPantalla(ventana)
+        Label(ventana,text=f"Actualizar Camioneta id {id}").pack(pady=7)
+
+        lbls=["Marca","Color","Modelo","Velocidad","Caballaje","Plazas","Tracción"]
+        ents=[]
+
+        for i,t in enumerate(lbls):
+            Label(ventana,text=t).pack()
+            e = Entry(ventana)
+            e.insert(0,str(c[i+1]))
+            e.pack()
+            ents.append(e)
+
+        Button(
+            ventana,
+            text="Guardar",
+            width=20,
+            command=lambda: Controlador.modificar_camioneta(*[e.get() for e in ents], id)
+        ).pack(pady=7)
+
+        Button(ventana,text="Volver",width=10,command=lambda:
+               Vistas.menu_camionetas(ventana)).pack(pady=7)
+
+
+
+    @staticmethod
+    def eliminar_camionetas(ventana):
+        Vistas.borrarPantalla(ventana)
+        Label(ventana,text="Eliminar camioneta").pack(pady=7)
+        Label(ventana,text="Id").pack(); e=Entry(ventana); e.pack()
+        Button(ventana,text="Buscar",width=10,command=lambda:Vistas.eliminar_conf(ventana,e.get())).pack(pady=7)
+        Button(ventana,text="Volver",width=10,command=lambda:Vistas.menu_camionetas(ventana)).pack(pady=7)
+
+    @staticmethod
+    def eliminar_conf(ventana,id):
+        auto=Controlador.consultar_camioneta(id)
+        if not auto:
+            Vistas.borrarPantalla(ventana); Label(ventana,text="No existe el id").pack(pady=7)
+            Button(ventana,text="Volver",width=10,command=lambda:Vistas.eliminar_camionetas(ventana)).pack(pady=7); return
+        auto=auto[0]
+        Vistas.borrarPantalla(ventana)
+        Label(ventana,text=f"¿quieres borrar la camioneta, id {auto[0]} {auto[1]} {auto[2]} {auto[3]}").pack(pady=10)
+        Button(ventana,text="Sí",width=10,command=lambda:Controlador.eliminar_camion(id)).pack(pady=7)
+        Button(ventana,text="Volver",width=10,command=lambda:Vistas.menu_camionetas(ventana)).pack(pady=7)
+
+
+    @staticmethod
+    def menu_camiones(ventana):
+        Vistas.borrarPantalla(ventana)
+        Label(ventana,text="Menu Camiones").pack(pady=7)
+        Button(ventana,text="Agregar",width=10,command=lambda:Vistas.insertar_camiones(ventana)).pack(pady=7)
+        Button(ventana,text="Consultar",width=10,command=lambda:Vistas.consultar_camiones(ventana)).pack(pady=7)
+        Button(ventana,text="Actualizar",width=10,command=lambda:Vistas.modificar_camiones(ventana)).pack(pady=7)
+        Button(ventana,text="Eliminar",width=10,command=lambda:Vistas.eliminar_camiones(ventana)).pack(pady=7)
+        Button(ventana,text="Volver",width=10,command=lambda:Vistas.interfaz(ventana)).pack(pady=7)
+
+    @staticmethod
+    def insertar_camiones(ventana):
+        Vistas.borrarPantalla(ventana)
+        Label(ventana,text="Agregar Camion").pack(pady=7)
+        lbl=["Marca","Color","Modelo","Velocidad","Caballaje","Plazas","Eje","Capacidad Carga"]; ents=[]
+        for t in lbl:
+            Label(ventana,text=t).pack()
+            e=Entry(ventana); e.pack(); ents.append(e)
+        Button(ventana,text="Guardar",width=10,command=lambda:Controlador.insertar_camion(*[e.get() for e in ents])).pack(pady=7)
+        Button(ventana,text="Volver",width=10,command=lambda:Vistas.menu_camiones(ventana)).pack(pady=7)
+
+    @staticmethod
+    def consultar_camiones(ventana):
+        Vistas.borrarPantalla(ventana)
+        Label(ventana,text="Camiones").pack(pady=7)
+        datos=Controlador.consultar_camion("all")
+        if not datos:
+            Label(ventana,text="No hay camiones ").pack(pady=7)
+        else:
+            for c in datos:
+                Label(ventana,text=f"id {c[0]} {c[1]} {c[2]} {c[3]} {c[4]} {c[5]} {c[6]} {c[7]} {c[8]}").pack()
+        Button(ventana,text="Volver",width=10,command=lambda:Vistas.menu_camiones(ventana)).pack(pady=7)
+
+    @staticmethod
+    def modificar_camiones(ventana):
+        Vistas.borrarPantalla(ventana)
+        Label(ventana,text="Actualizar camion").pack(pady=7)
+        Label(ventana,text="Id").pack()
+        e=Entry(ventana); e.pack()
+        Button(ventana,text="Buscar",width=10,command=lambda:Vistas.modificar_form_camion(ventana,e.get())).pack(pady=7)
+        Button(ventana,text="Volver",width=10,command=lambda:Vistas.menu_camiones(ventana)).pack(pady=7)
+
+    @staticmethod
+    def modificar_form_camion(ventana,id):
+        c=Controlador.consultar_camion(id)
+        if not c:
+            Vistas.borrarPantalla(ventana)
+            Label(ventana,text="No existe el id").pack(pady=7)
+            Button(ventana,text="Volver",width=10,command=lambda:Vistas.modificar_camiones(ventana)).pack(pady=7)
+            return
+        if isinstance(c,list) and len(c)>0: c=c[0]
+        Vistas.borrarPantalla(ventana)
+        Label(ventana,text=f"Actualizar Camion id {id}").pack(pady=5)
+        lbl=["Marca","Color","Modelo","Velocidad","Caballaje","Plazas","Eje","Capacidad Carga"]; ents=[]
+        for i,t in enumerate(lbl):
+            Label(ventana,text=t).pack()
+            e=Entry(ventana)
+            e.insert(0,str(c[i+1]))
+            e.pack(); ents.append(e)
+        Button(ventana,text="Guardar ",width=10,command=lambda:Controlador.modificar_camion(*[e.get() for e in ents],id)).pack(pady=7)
+        Button(ventana,text="Volver",width=10,command=lambda:Vistas.menu_camiones(ventana)).pack(pady=7)
+
+    @staticmethod
+    def eliminar_camiones(ventana):
+        Vistas.borrarPantalla(ventana)
+        Label(ventana,text="Eliminar camion").pack(pady=7)
+        Label(ventana,text="Id").pack(); e=Entry(ventana); e.pack()
+        Button(ventana,text="Buscar",width=10,command=lambda:Vistas.eliminar_confir(ventana,e.get())).pack(pady=7)
+        Button(ventana,text="Volver",width=10,command=lambda:Vistas.menu_camiones(ventana)).pack(pady=7)
+
+    @staticmethod
+    def eliminar_confir(ventana,id):
+        auto=Controlador.consultar_camion(id)
+        if not auto:
+            Vistas.borrarPantalla(ventana); Label(ventana,text="No existe el id").pack(pady=7)
+            Button(ventana,text="Volver",width=10,command=lambda:Vistas.eliminar_camiones(ventana)).pack(pady=7); return
+        auto=auto[0]
+        Vistas.borrarPantalla(ventana)
+        Label(ventana,text=f"¿quieres borrar la camioneta, id {auto[0]} {auto[1]} {auto[2]} {auto[3]}").pack(pady=10)
+        Button(ventana,text="Sí",width=10,command=lambda:Controlador.eliminar_camion(id)).pack(pady=7)
+        Button(ventana,text="Volver",width=10,command=lambda:Vistas.menu_camiones(ventana)).pack(pady=7)

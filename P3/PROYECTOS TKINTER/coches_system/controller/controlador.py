@@ -1,137 +1,75 @@
-from tkinter import *
 from tkinter import messagebox
-from model import coches
-from view import vista
-from conexionBD import conexion,cursor
+from model.cochesBD import Autos, Camionetas, Camiones
 
-class Coches:
-    @staticmethod
-    def crear(marca,color,modelo,velocidad,caballaje,plazas):
-        resultado=coches.Autos.insertar(marca,color,modelo,velocidad,caballaje,plazas)
-        Coches.respuesta_sql(resultado)
+class Controlador:
 
     @staticmethod
-    def respuesta_sql(respuesta):
-        if respuesta:
-            mensaje=messagebox.showinfo(message=f"¡ Accion realizada con Éxito !",icon="info")
-        else:
-            mensaje=messagebox.showinfo(message=f"¡ No fue posible realizar la acción, vuelva a intentar por favor !",icon="info")
-
+    def insertar_auto(marca,color,modelo,velocidad,caballaje,plazas):
+        r=Autos.insertar(marca,color,modelo,velocidad,caballaje,plazas)
+        Controlador.respuesta_sql("Insertar Auto",r)
 
     @staticmethod
-    def consultar():
-        registros = Coches.Autos.consultar()
-        return registros
+    def consultar_auto(id):
+        if id=="all": return Autos.consultar()
+        else: return Autos.consultarID(id)
 
     @staticmethod
-    def mostrar():
-        registro=Coches.Autos.consultar()
-        return registro 
-    
-    @staticmethod
-    def actualizar(marca,color,modelo,velocidad,caballaje,plazas,id):
-        resultado=coches.Autos.actualizar(marca,color,modelo,velocidad,caballaje,plazas,id)
-        Coches.respuesta_sql(resultado)
+    def modificar_auto(marca,color,modelo,velocidad,caballaje,plazas,id):
+        r=Autos.actualizar(marca,color,modelo,velocidad,caballaje,plazas,id)
+        Controlador.respuesta_sql("Modificar Auto",r)
 
     @staticmethod
-    def eliminar(id):
-        respuesta=coches.Autos.eliminar(id)
-        Coches.respuesta_sql(id)
-
-    @staticmethod
-    def buscar(id):
-        respuesta=coches.Autos.buscar(id)
-        if len(respuesta)>0:
-            if respuesta:
-                Coches.eliminar(id)
-            else:
-                mensaje=messagebox.showinfo(message=f"¡ hubo un error , vuelva a intentar por favor !",icon="info")
-                return  
-        else:
-            mensaje=messagebox.showinfo(message=f"¡No existe , vuelva a intentar por favor !",icon="info")
-            return
-              
-class camiones:
-    @staticmethod
-    def respuesta_sql(respuesta):
-        if respuesta:
-            mensaje=messagebox.showinfo(message=f"¡ Accion realizada con Éxito !",icon="info")
-        else:
-            mensaje=messagebox.showinfo(message=f"¡ No fue posible realizar la acción, vuelva a intentar por favor !",icon="info")
-
-    @staticmethod
-    def crear(marca,color,modelo,velocidad,caballaje,plazas,eje,capacidadCarga):
-        resultado=coches.Camiones.insertar(marca,color,modelo,velocidad,caballaje,plazas,eje,capacidadCarga)
-        camiones.respuesta_sql(resultado)
-
-    @staticmethod
-    def mostrar():
-        registro=coches.Camiones.consultar()
-        return registro 
-    
-    @staticmethod
-    def actualizar(marca,color,modelo,velocidad,caballaje,plazas,eje,capacidadCarga,id):
-        resultado=coches.Camiones.actualizar(marca,color,modelo,velocidad,caballaje,plazas,eje,capacidadCarga,id)
-        camiones.respuesta_sql(resultado)
-
-    @staticmethod
-    def eliminar(id):
-        respuesta=coches.Camiones.eliminar(id)
-        camiones.respuesta_sql(id)
-
-    @staticmethod
-    def buscar(id):
-        respuesta=coches.Camiones.buscar(id)
-        if len(respuesta)>0:
-            if respuesta:
-                camiones.eliminar(id)
-            else:
-                mensaje=messagebox.showinfo(message=f"¡ Hubo un error , vuelva a intentar por favor !",icon="info")
-                return  
-        else:
-            mensaje=messagebox.showinfo(message=f"¡ La nota no existe , vuelva a intentar por favor !",icon="info")
-            return
-        
-class camionetas:
-    @staticmethod
-    def respuesta_sql(respuesta):
-        if respuesta:
-            mensaje=messagebox.showinfo(message=f"¡ Accion realizada con Éxito !",icon="info")
-        else:
-            mensaje=messagebox.showinfo(message=f"¡ No fue posible realizar la acción, vuelva a intentar por favor !",icon="info")
-    
-    @staticmethod
-    def crear(marca,color,modelo,velocidad,caballaje,plazas,traccion,cerrada):
-        resultado=coches.Camionetas.insertar(marca,color,modelo,velocidad,caballaje,plazas,traccion,cerrada)
-        camionetas.respuesta_sql(resultado)
-
-    @staticmethod
-    def mostrar():
-        registro=coches.Camionetas.consultar()
-        return registro 
-    
-    @staticmethod
-    def actualizar(marca,color,modelo,velocidad,caballaje,plazas,traccion,cerrada,id):
-        resultado=coches.Camionetas.actualizar(marca,color,modelo,velocidad,caballaje,plazas,traccion,cerrada,id)
-        camionetas.respuesta_sql(resultado)
-
-    @staticmethod
-    def eliminar(id):
-        respuesta=coches.Camionetas.eliminar(id)
-        mensaje=messagebox.showinfo(message=f"No existe, escribe uno valido",icon="info")
-
-    @staticmethod
-    def buscar(id):
-        respuesta=coches.Camionetas.buscar(id)
-        if len(respuesta)>0:
-            if respuesta:
-                camionetas.buscar(id)
-            else:
-                mensaje=messagebox.showinfo(message=f"¡ Hubo un error , vuelva a intentar por favor !",icon="info")
-                return  
-        else:
-            mensaje=messagebox.showinfo(message=f"No existe, escribe uno valido",icon="info")
-            return
+    def eliminar_auto(id):
+        r=Autos.eliminar(id)
+        Controlador.respuesta_sql("Eliminar Auto",r)
 
 
-    
+
+    @staticmethod
+    def insertar_camioneta(marca,color,modelo,velocidad,caballaje,plazas,traccion):
+        r=Camionetas.insertar(marca,color,modelo,velocidad,caballaje,plazas,traccion)
+        Controlador.respuesta_sql("Insertar Camioneta",r)
+
+    @staticmethod
+    def consultar_camioneta(id):
+        if id=="all": return Camionetas.consultar()
+        else: return Camionetas.consultarID(id)
+
+    @staticmethod
+    def modificar_camioneta(marca,color,modelo,velocidad,caballaje,plazas,traccion,id):
+        r=Camionetas.actualizar(marca,color,modelo,velocidad,caballaje,plazas,traccion,id)
+        Controlador.respuesta_sql("Modificar Camioneta",r)
+
+    @staticmethod
+    def eliminar_camioneta(id):
+        r=Camionetas.eliminar(id)
+        Controlador.respuesta_sql("Eliminar Camioneta",r)
+
+
+
+    @staticmethod
+    def insertar_camion(marca,color,modelo,velocidad,caballaje,plazas,eje,capacidad):
+        r=Camiones.insertar(marca,color,modelo,velocidad,caballaje,plazas,eje,capacidad)
+        Controlador.respuesta_sql("Insertar Camión",r)
+
+    @staticmethod
+    def consultar_camion(id):
+        if id=="all": return Camiones.consultar()
+        else: return Camiones.consultarID(id)
+
+    @staticmethod
+    def modificar_camion(marca,color,modelo,velocidad,caballaje,plazas,eje,capacidad,id):
+        r=Camiones.actualizar(marca,color,modelo,velocidad,caballaje,plazas,eje,capacidad,id)
+        Controlador.respuesta_sql("Modificar Camión",r)
+
+    @staticmethod
+    def eliminar_camion(id):
+        r=Camiones.eliminar(id)
+        Controlador.respuesta_sql("Eliminar Camión",r)
+
+
+
+    @staticmethod
+    def respuesta_sql(t,res):
+        if res: messagebox.showinfo(t,"Acción realizada con éxito")
+        else: messagebox.showerror(t,"No se pudo completar la acción")
